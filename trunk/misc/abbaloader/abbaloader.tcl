@@ -1,4 +1,4 @@
-#!/usr/bin/wish -f
+#!/usr/bin/env wish
 
 package require Tk
 
