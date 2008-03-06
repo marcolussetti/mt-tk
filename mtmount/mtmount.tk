@@ -17,30 +17,36 @@ package require Tk
 
 proc domount {imagenumber} {
     set mountcmd "mount -o loop -t iso9660"
-    set sudocmd "kdesu -c"
+    set envir "kde"
     set types {
         {{Image files}       {.iso .nrg .img .ccd .cue .mdf}        }
         {{All Files}        *             }
     }
-    set msource [tk_getOpenFile -filetypes $types]
-    if {$imagenumber == 1} {set mtarget "/media/image1"}
-    elseif {$imagenumber == 2} {set mtarget "/media/image2"}
-    elseif {$imagenumber == 3} {set mtarget "/media/image3"}
-    elseif {$imagenumber == 4} {set mtarget "/media/image4"}
-    elseif {$imagenumber == 5} {set mtarget "/media/image5"}
-    elseif {$imagenumber == 6} {set mtarget "/media/image6"}
-    exec kdesu -c "mount -o loop -t iso9660 \'$msource\'  $mtarget"
+    set msource [tk_getOpenFile -initialdir "~" -filetypes $types]
+    if {$imagenumber == 1} {set mtarget "/media/image1"
+    } elseif {$imagenumber == 2} {set mtarget "/media/image2"
+    } elseif {$imagenumber == 3} {set mtarget "/media/image3"
+    } elseif {$imagenumber == 4} {set mtarget "/media/image4"
+    } elseif {$imagenumber == 5} {set mtarget "/media/image5"
+    } elseif {$imagenumber == 6} {set mtarget "/media/image6"
+    }
+    if {$envir == "kde"} { exec  kdesu -c "$mountcmd \'$msource\'  $mtarget"
+    } else  { exec  gksudo "$mountcmd \'$msource\'  $mtarget"
+    }
 }
 
 proc doumount {imagenumber} {
-    set sudocmd "kdesu"
-    if {$imagenumber == 1} {set mtarget "/media/image1"}
-    elseif {$imagenumber == 2} {set mtarget "/media/image2"}
-    elseif {$imagenumber == 3} {set mtarget "/media/image3"}
-    elseif {$imagenumber == 4} {set mtarget "/media/image4"}
-    elseif {$imagenumber == 5} {set mtarget "/media/image5"}
-    elseif {$imagenumber == 6} {set mtarget "/media/image6"}
-    exec kdesu -c "umount $mtarget"
+    set envir "kde"
+    if {$imagenumber == 1} {set mtarget "/media/image1"
+    } elseif {$imagenumber == 2} {set mtarget "/media/image2"
+    } elseif {$imagenumber == 3} {set mtarget "/media/image3"
+    } elseif {$imagenumber == 4} {set mtarget "/media/image4"
+    } elseif {$imagenumber == 5} {set mtarget "/media/image5"
+    } elseif {$imagenumber == 6} {set mtarget "/media/image6"
+    }
+    if {$envir == "kde"} { exec  kdesu -c "umount $mtarget"
+    } else  { exec  gksudo "umount $mtarget"
+    }
 }
 
 label .mount1 -text "Image 1" -bg red
