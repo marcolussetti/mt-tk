@@ -1,0 +1,98 @@
+#!/usr/bin/env wish
+# MtMount by Snowolf <snowolf@snowolf.eu> - A simple, awfully coded image mounter
+# for Mandriva+KDE
+# Copyright (c) 2008 Marco Lussetti.
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the "Artistic License" which comes with this Kit.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See either
+# the Artistic License for more details.
+
+# You should have received a copy of the Artistic License with this
+# Kit, in the file named "Artistic".  If not, I'll be glad to provide one.
+
+package require Tk
+
+proc domount {imagenumber} {
+    set mountcmd "mount -o loop -t iso9660"
+    set envir "gnome"
+    set types {
+        {{Image files}       {.iso .nrg .img .ccd .cue .mdf}        }
+        {{All Files}        *             }
+    }
+    set msource [tk_getOpenFile -initialdir "~" -filetypes $types]
+    if {$imagenumber == 1} {set mtarget "/media/image1"
+    } elseif {$imagenumber == 2} {set mtarget "/media/image2"
+    } elseif {$imagenumber == 3} {set mtarget "/media/image3"
+    } elseif {$imagenumber == 4} {set mtarget "/media/image4"
+    } elseif {$imagenumber == 5} {set mtarget "/media/image5"
+    } elseif {$imagenumber == 6} {set mtarget "/media/image6"
+    }
+    if {$envir == "kde"} { exec  kdesu -c "$mountcmd \'$msource\'  $mtarget"
+    } else  { exec  gksudo "$mountcmd \'$msource\'  $mtarget"
+    }
+}
+
+proc doumount {imagenumber} {
+    set envir "gnome"
+    if {$imagenumber == 1} {set mtarget "/media/image1"
+    } elseif {$imagenumber == 2} {set mtarget "/media/image2"
+    } elseif {$imagenumber == 3} {set mtarget "/media/image3"
+    } elseif {$imagenumber == 4} {set mtarget "/media/image4"
+    } elseif {$imagenumber == 5} {set mtarget "/media/image5"
+    } elseif {$imagenumber == 6} {set mtarget "/media/image6"
+    }
+    if {$envir == "kde"} { exec  kdesu -c "umount $mtarget"
+    } else  { exec  gksudo "umount $mtarget"
+    }
+}
+
+label .mount1 -text "Image 1" -bg red
+pack .mount1
+button .mountbutton1 -text "Mount" \
+        -command {domount 1}
+button .umountbutton1 -text "Unmount" \
+                -command {doumount 1}
+pack .mountbutton1 .umountbutton1
+
+label .mount2 -text "Image 2" -bg red
+pack .mount2
+button .mountbutton2 -text "Mount" \
+        -command {[domount 2]}
+button .umountbutton2 -text "Unmount" \
+        -command {[doumount 2]}
+pack .mountbutton2 .umountbutton2
+
+label .mount3 -text "Image 3" -bg red
+pack .mount3
+button .mountbutton3 -text "Mount" \
+        -command {[domount 3]}
+button .umountbutton3 -text "Unmount" \
+        -command {[doumount 3]}
+pack .mountbutton3 .umountbutton3
+
+label .mount4 -text "Image 4" -bg red
+pack .mount4
+button .mountbutton4 -text "Mount" \
+        -command {[domount 4]}
+button .umountbutton4 -text "Unmount" \
+        -command {[doumount 4]}
+pack .mountbutton4 .umountbutton4
+
+label .mount5 -text "Image 5" -bg red
+pack .mount5
+button .mountbutton5 -text "Mount" \
+        -command {[domount 5]}
+button .umountbutton5 -text "Unmount" \
+        -command {[doumount 5]}
+pack .mountbutton5 .umountbutton5
+
+label .mount6 -text "Image 6" -bg red
+pack .mount6
+button .mountbutton6 -text "Mount" \
+        -command {[domount 6]}
+button .umountbutton6 -text "Unmount" \
+        -command {[doumount 6]}
+pack .mountbutton6 .umountbutton6

@@ -1,0 +1,2 @@
+#!bin/sh
+gksudo "mkdir /media/image1 && chmod 777 /media/image1 && mkdir /media/image2 && chmod 777 /media/image2 && mkdir /media/image3 && chmod 777 /media/image3 && mkdir /media/image4 && chmod 777 /media/image4 && mkdir /media/image5 && chmod 777 /media/image5 && mkdir /media/image6 && chmod 777 /media/image6"
